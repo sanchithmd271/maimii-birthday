@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maimii's Birthday Box 🎁</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(135deg,#fff0e8 0%,#f3eaff 55%,#e7f7ff 100%);
+  color:#28232d; display:flex; justify-content:center; padding:28px 16px;
+}
+.wrap{width:min(820px,100%);text-align:center}
+.tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;opacity:.55}
+h1{font-size:clamp(36px,9vw,70px);margin:8px 0 2px;line-height:1}
+.subtitle{margin:12px auto 28px;max-width:580px;line-height:1.5;opacity:.72}
+.box{
+  background:#fff;border:2px solid #28232d;border-radius:26px;padding:20px;
+  box-shadow:10px 10px 0 #28232d;text-align:left
+}
+.shipping{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.stamp{border:1px dashed #777;border-radius:8px;padding:7px 10px;font-size:11px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.card{
+  border:2px solid #28232d;border-radius:19px;padding:20px 15px;min-height:145px;
+  cursor:pointer;font:inherit;text-align:center;box-shadow:4px 4px 0 #28232d;
+  transition:.15s;background:#fff8d9
+}
+.card:nth-child(2){background:#eaf7ff}
+.card:nth-child(3){background:#f3eaff}
+.card:nth-child(4){background:#e9f8e9}
+.card:nth-child(5){background:#ffe9ef}
+.card:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 #28232d}
+.card .emoji{display:block;font-size:35px;margin-bottom:9px}
+.card strong{display:block;font-size:15px}
+.card small{display:block;margin-top:6px;opacity:.58}
+.secret{
+  margin-top:14px;background:#25212a;color:white;box-shadow:4px 4px 0 #bbb;
+}
+.secret small{color:#ddd}
+.footer{text-align:center;font-weight:800;margin:24px 4px 4px}
+dialog{
+  width:min(650px,calc(100% - 28px));border:2px solid #28232d;border-radius:23px;
+  padding:27px;box-shadow:8px 8px 0 #28232d;background:#fff;color:#28232d
+}
+dialog::backdrop{background:rgba(25,20,30,.58)}
+.close{float:right;border:0;background:none;font-size:27px;cursor:pointer}
+.modalEmoji{font-size:45px}
+.modalTitle{font-size:29px;margin:5px 0 17px}
+.message{font-size:17px;line-height:1.65;white-space:pre-line}
+.media-note{margin-top:18px;padding:14px;border-radius:14px;background:#f5f2f7;font-size:13px}
+.media-note b{display:block;margin-bottom:5px}
+audio,video{width:100%;margin-top:12px;border-radius:12px}
+video{max-height:360px}
+.photo{width:100%;max-height:420px;object-fit:contain;border-radius:15px;margin-top:12px}
+.secret-message{text-align:center;font-size:19px}
+@media(max-width:540px){.grid{grid-template-columns:1fr}.box{padding:15px}.card{min-height:125px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tag">SPECIAL DELIVERY • HANDLE WITH CARE</div>
+  <h1>📦 MAIMII</h1>
+  <p class="subtitle">
+    A highly unofficial emotional-support package containing laughter,
+    questionable memories, unsolicited wisdom and one very lucky friendship.
+  </p>
+
+  <div class="box">
+    <div class="shipping">
+      <span class="stamp">TO: <b>MAIMII</b></span>
+      <span class="stamp">FROM: <b>YOUR NAME</b></span>
+      <span class="stamp">STATUS: DELIVERED ♥</span>
+    </div>
+
+    <div class="grid">
+      <button class="card" onclick="openBox(0)">
+        <span class="emoji">🫂</span><strong>Open when you miss me</strong>
+        <small>geography is the villain</small>
+      </button>
+
+      <button class="card" onclick="openBox(1)">
+        <span class="emoji">🧠</span><strong>Open when life gets overwhelming</strong>
+        <small>for the ambitious human</small>
+      </button>
+
+      <button class="card" onclick="openBox(2)">
+        <span class="emoji">😂</span><strong>Open when you need to laugh</strong>
+        <small>⚠️ questionable material inside</small>
+      </button>
+
+      <button class="card" onclick="openBox(3)">
+        <span class="emoji">❤️</span><strong>Open when you forget</strong>
+        <small>how loved you are</small>
+      </button>
+
+      <button class="card" onclick="openBox(4)">
+        <span class="emoji">🥂</span><strong>Open on your birthday night</strong>
+        <small>final delivery</small>
+      </button>
+
+      <button class="card secret" onclick="openSecret()">
+        <span class="emoji">🔐</span><strong>DO NOT OPEN UNLESS READY</strong>
+        <small>there may be a plot twist</small>
+      </button>
+    </div>
+
+    <div class="footer">BOX EMPTY. BEST FRIEND STILL STUCK WITH YOU. ❤️</div>
+  </div>
+</div>
+
+<dialog id="modal">
+  <button class="close" onclick="modal.close()">×</button>
+  <div class="modalEmoji" id="mEmoji"></div>
+  <div class="modalTitle" id="mTitle"></div>
+  <div class="message" id="mMessage"></div>
+  <div id="media"></div>
+</dialog>
+
+<script>
+/*
+========================================================
+PERSONALISE THIS FILE
+========================================================
+
+1. Change YOUR NAME below.
+
+2. For the laughter box, put your files in the SAME
+   folder as this HTML file and rename them:
+      maimii_embarrassing_photo.jpg
+      maimii_laugh.mp4
+      maimii_song.mp3
+
+3. If you use different filenames, change the three
+   values below.
+
+IMPORTANT:
+If you send only this HTML file to Maimii, the media files
+must travel with it. The easiest option is to put the HTML
+and the three media files in one folder and ZIP the folder.
+
+Even better: upload the photo/video/song to this chat later
+and I can make a version with the media packaged directly
+into the HTML.
+*/
+
+const YOUR_NAME = "YOUR NAME";
+
+const PHOTO_FILE = "maimii_embarrassing_photo.jpg";
+const VIDEO_FILE = "maimii_laugh.mp4";
+const SONG_FILE  = "maimii_song.mp3";
+
+const boxes = [
+{
+ emoji:"🫂",
+ title:"Open when you miss me",
+ message:`So you've finally admitted that you miss me.
+
+Interesting.
+
+Unfortunately, teleportation technology has failed us again.
+
+So until science gets its shit together, here's your reminder:
+
+Distance doesn't change the fact that you're one of my people. ❤️`
+},
+{
+ emoji:"🧠",
+ title:"Open when life gets overwhelming",
+ message:`Hey, ambitious human.
+
+You don't have to conquer the world today.
+
+One goal. One step. One breath.
+
+And if you've forgotten: you're already doing better than you think you are.
+
+Now go drink some water and stop trying to solve your entire existence at 2 AM.`
+},
+{
+ emoji:"😂",
+ title:"Open when you need to laugh",
+ message:`🚨 EMERGENCY LAUGHTER PROTOCOL ACTIVATED 🚨
+
+Your current level of seriousness has become unacceptable.
+
+I have therefore prepared highly classified evidence of your crimes against dignity.
+
+Proceed at your own risk.`
+},
+{
+ emoji:"❤️",
+ title:"Open when you forget how loved you are",
+ message:`Maimii,
+
+You're one of those people who makes life lighter without even trying.
+
+Funny, warm, ridiculously outgoing, but somehow still so grounded and humble.
+
+I hope you never lose that part of yourself.
+
+Keep chasing the things you want. Keep growing. Keep being curious. Keep that little spiritual part of you that reminds you there's more to life than whatever is stressing you out today.
+
+And remember, somewhere out there, there's a person who is ridiculously grateful that you're in their life.
+
+❤️`
+},
+{
+ emoji:"🥂",
+ title:"Open on your birthday night",
+ message:`MAIMII HAS SUCCESSFULLY UNLOCKED ANOTHER YEAR. 🎉
+
++1 year of wisdom
++1 year of questionable decisions
++365 days of character development
++∞ spiritual growth
++∞ reasons to laugh
+
+May this year take you closer to every goal you've been quietly working towards.
+
+May you have the courage to chase the big things, the wisdom to appreciate the small things, and enough ridiculous moments to keep life interesting.
+
+And may your best friend continue being an unavoidable part of the package.
+
+Happy birthday, Maimii. ❤️
+
+Distance: annoying.
+Friendship: undefeated.`
+}
+];
+
+function openBox(i){
+  document.getElementById("mEmoji").textContent=boxes[i].emoji;
+  document.getElementById("mTitle").textContent=boxes[i].title;
+  document.getElementById("mMessage").textContent=boxes[i].message;
+  document.getElementById("media").innerHTML="";
+
+  if(i===2){
+    document.getElementById("media").innerHTML=`
+      <div class="media-note">
+        <b>📸 THE EVIDENCE</b>
+        Embarrassing photo + video + soundtrack. Because apparently one form of humiliation wasn't enough.
+      </div>
+      <img class="photo" src="${PHOTO_FILE}" alt="Maimii's embarrassing photo"
+           onerror="this.style.display='none'">
+      <video controls playsinline preload="metadata" src="${VIDEO_FILE}"
+             onerror="this.style.display='none'"></video>
+      <audio controls src="${SONG_FILE}"
+             onerror="this.style.display='none'"></audio>
+      <div class="media-note">If something doesn't appear, check that the filename matches the HTML exactly.</div>
+    `;
+  }
+
+  document.getElementById("modal").showModal();
+}
+
+function openSecret(){
+  document.getElementById("mEmoji").textContent="🔐";
+  document.getElementById("mTitle").textContent="Plot twist.";
+  document.getElementById("mMessage").textContent=
+`You thought that was the end?
+
+Absolutely not.
+
+[PUT YOUR SECRET MESSAGE / SURPRISE HERE]
+
+You have officially been warned. ❤️`;
+  document.getElementById("media").innerHTML="";
+  document.getElementById("modal").showModal();
+}
+</script>
+</body>
+</html>

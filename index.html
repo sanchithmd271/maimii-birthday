@@ -124,7 +124,6 @@ video{max-height:360px}
 <dialog id="modal">
   <button class="close" onclick="modal.close()">×</button>
   <div class="modalEmoji" id="mEmoji"></div>
-  <div class="modalTitle" id="mTitle"></div>
   <div class="message" id="mMessage"></div>
   <div id="media"></div>
 </dialog>
@@ -147,7 +146,7 @@ Distance doesn't change the fact that you're one of my people. ❤️`},
 {emoji:"🧠",title:"Open when life gets overwhelming",message:`Hey, ambitious human.
 
 You don't have to conquer the world today.
-One goal. One step. One breath.
+<b> One goal. One step. One breath. </b>
 And if you've forgotten: you're already doing better than you think you are.
 
 Now go drink some water and stop trying to solve your entire existence at 2 AM.`},
@@ -193,8 +192,7 @@ Friendship: undefeated.`}
 
 function openBox(i){
   document.getElementById("mEmoji").textContent=boxes[i].emoji;
-  document.getElementById("mTitle").textContent=boxes[i].title;
-  document.getElementById("mMessage").textContent=boxes[i].message;
+  document.getElementById("mMessage").innerHTML=boxes[i].message;
   document.getElementById("media").innerHTML="";
 
   if(i===2){
@@ -235,7 +233,6 @@ function showMedia(type){
 
 function openSecret(){
   document.getElementById("mEmoji").textContent="🔐";
-  document.getElementById("mTitle").textContent="Plot twist.";
   document.getElementById("mMessage").textContent=`You thought that was the end?
 
 Absolutely not.

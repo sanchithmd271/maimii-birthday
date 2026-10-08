@@ -56,6 +56,17 @@ video{max-height:360px}
 .photo{width:100%;max-height:420px;object-fit:contain;border-radius:15px;margin-top:12px}
 .secret-message{text-align:center;font-size:19px}
 @media(max-width:540px){.grid{grid-template-columns:1fr}.box{padding:15px}.card{min-height:125px}}
+
+/* Three-card laughter department */
+.media-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:20px}
+.media-card{width:100%;border:2px solid #28232d;border-radius:17px;padding:17px 14px;cursor:pointer;font:inherit;color:#28232d;box-shadow:4px 4px 0 #28232d;transition:.15s;text-align:center}
+.media-card:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 #28232d}
+.photo-card{background:#fff0f4}.video-card{background:#eef8ff}.song-card{background:#fff8d9}
+.media-icon{display:block;font-size:28px;margin-bottom:7px}.media-card strong{display:block;font-size:15px;line-height:1.35}.media-card small{display:block;margin-top:6px;opacity:.55}
+.media-view{margin-top:18px;text-align:center}.media-view h3{margin:10px 0 5px;font-size:20px}.media-view p{margin:0 0 12px;opacity:.72}
+.back-button{border:1px solid #777;background:#f5f2f7;border-radius:9px;padding:7px 10px;cursor:pointer;font:inherit;font-size:12px}
+.song-box{margin-top:15px;padding:20px;background:#fff8d9;border-radius:15px}.big-note{font-size:50px;margin-bottom:10px}
+
 </style>
 </head>
 <body>
@@ -119,43 +130,12 @@ video{max-height:360px}
 </dialog>
 
 <script>
-/*
-========================================================
-PERSONALISE THIS FILE
-========================================================
-
-1. Change YOUR NAME below.
-
-2. For the laughter box, put your files in the SAME
-   folder as this HTML file and rename them:
-      maimii_embarrassing_photo.jpg
-      maimii_laugh.mp4
-      maimii_song.mp3
-
-3. If you use different filenames, change the three
-   values below.
-
-IMPORTANT:
-If you send only this HTML file to Maimii, the media files
-must travel with it. The easiest option is to put the HTML
-and the three media files in one folder and ZIP the folder.
-
-Even better: upload the photo/video/song to this chat later
-and I can make a version with the media packaged directly
-into the HTML.
-*/
-
-const YOUR_NAME = "YOUR NAME";
-
 const PHOTO_FILE = "maimii_embarrassing_photo.jpg";
 const VIDEO_FILE = "maimii_laugh.mp4";
 const SONG_FILE  = "maimii_song.mp3";
 
 const boxes = [
-{
- emoji:"🫂",
- title:"Open when you miss me",
- message:`So you've finally admitted that you miss me.
+{emoji:"🫂",title:"Open when you miss me",message:`So you've finally admitted that you miss me.
 
 Interesting.
 
@@ -163,12 +143,8 @@ Unfortunately, teleportation technology has failed us again.
 
 So until science gets its shit together, here's your reminder:
 
-Distance doesn't change the fact that you're one of my people. ❤️`
-},
-{
- emoji:"🧠",
- title:"Open when life gets overwhelming",
- message:`Hey, ambitious human.
+Distance doesn't change the fact that you're one of my people. ❤️`},
+{emoji:"🧠",title:"Open when life gets overwhelming",message:`Hey, ambitious human.
 
 You don't have to conquer the world today.
 
@@ -176,23 +152,15 @@ One goal. One step. One breath.
 
 And if you've forgotten: you're already doing better than you think you are.
 
-Now go drink some water and stop trying to solve your entire existence at 2 AM.`
-},
-{
- emoji:"😂",
- title:"Open when you need to laugh",
- message:`🚨 EMERGENCY LAUGHTER PROTOCOL ACTIVATED 🚨
+Now go drink some water and stop trying to solve your entire existence at 2 AM.`},
+{emoji:"😂",title:"Open when you need to laugh",message:`🚨 EMERGENCY LAUGHTER PROTOCOL ACTIVATED 🚨
 
 Your current level of seriousness has become unacceptable.
 
-I have therefore prepared highly classified evidence of your crimes against dignity.
+I have therefore prepared a highly classified three-part investigation into your crimes against dignity.
 
-Proceed at your own risk.`
-},
-{
- emoji:"❤️",
- title:"Open when you forget how loved you are",
- message:`Maimii,
+Choose your evidence wisely. 😈`},
+{emoji:"❤️",title:"Open when you forget how loved you are",message:`Maimii,
 
 You're one of those people who makes life lighter without even trying.
 
@@ -204,12 +172,8 @@ Keep chasing the things you want. Keep growing. Keep being curious. Keep that li
 
 And remember, somewhere out there, there's a person who is ridiculously grateful that you're in their life.
 
-❤️`
-},
-{
- emoji:"🥂",
- title:"Open on your birthday night",
- message:`MAIMII HAS SUCCESSFULLY UNLOCKED ANOTHER YEAR. 🎉
+❤️`},
+{emoji:"🥂",title:"Open on your birthday night",message:`MAIMII HAS SUCCESSFULLY UNLOCKED ANOTHER YEAR. 🎉
 
 +1 year of wisdom
 +1 year of questionable decisions
@@ -226,8 +190,7 @@ And may your best friend continue being an unavoidable part of the package.
 Happy birthday, Maimii. ❤️
 
 Distance: annoying.
-Friendship: undefeated.`
-}
+Friendship: undefeated.`}
 ];
 
 function openBox(i){
@@ -237,29 +200,45 @@ function openBox(i){
   document.getElementById("media").innerHTML="";
 
   if(i===2){
+    document.getElementById("mEmoji").textContent="😂";
+    document.getElementById("mTitle").textContent="THE EMERGENCY LAUGHTER DEPARTMENT";
+    document.getElementById("mMessage").textContent="Three pieces of highly classified evidence await you. Choose carefully. 😈";
     document.getElementById("media").innerHTML=`
-      <div class="media-note">
-        <b>📸 THE EVIDENCE</b>
-        Embarrassing photo + video + soundtrack. Because apparently one form of humiliation wasn't enough.
-      </div>
-      <img class="photo" src="${PHOTO_FILE}" alt="Maimii's embarrassing photo"
-           onerror="this.style.display='none'">
-      <video controls playsinline preload="metadata" src="${VIDEO_FILE}"
-             onerror="this.style.display='none'"></video>
-      <audio controls src="${SONG_FILE}"
-             onerror="this.style.display='none'"></audio>
-      <div class="media-note">If something doesn't appear, check that the filename matches the HTML exactly.</div>
-    `;
+      <div class="media-grid">
+        <button class="media-card photo-card" onclick="showMedia('photo')">
+          <span class="media-icon">📸</span><strong>Why should boys have all the fun</strong><small>Evidence #01</small>
+        </button>
+        <button class="media-card video-card" onclick="showMedia('video')">
+          <span class="media-icon">😂</span><strong>Laughing like this is normal behavior 😉</strong><small>Evidence #02</small>
+        </button>
+        <button class="media-card song-card" onclick="showMedia('song')">
+          <span class="media-icon">🌟</span><strong>For the birthday star who shines even off-key 🌟😄</strong><small>Evidence #03</small>
+        </button>
+      </div>`;
   }
-
   document.getElementById("modal").showModal();
+}
+
+function showMedia(type){
+  const media=document.getElementById("media");
+  if(type==="photo") media.innerHTML=`
+    <div class="media-view"><button class="back-button" onclick="openBox(2)">← Back to the three cards</button>
+    <h3>📸 Evidence #01</h3><p>Why should boys have all the fun 😌</p>
+    <img class="photo" src="${PHOTO_FILE}" alt="Maimii's embarrassing photo"></div>`;
+  if(type==="video") media.innerHTML=`
+    <div class="media-view"><button class="back-button" onclick="openBox(2)">← Back to the three cards</button>
+    <h3>😂 Evidence #02</h3><p>Laughing like this is normal behavior 😉</p>
+    <video controls playsinline preload="metadata" src="${VIDEO_FILE}"></video></div>`;
+  if(type==="song") media.innerHTML=`
+    <div class="media-view"><button class="back-button" onclick="openBox(2)">← Back to the three cards</button>
+    <h3>🌟 Evidence #03</h3><p>For the birthday star who shines even off-key 🌟😄</p>
+    <div class="song-box"><div class="big-note">🎵</div><audio controls src="${SONG_FILE}"></audio></div></div>`;
 }
 
 function openSecret(){
   document.getElementById("mEmoji").textContent="🔐";
   document.getElementById("mTitle").textContent="Plot twist.";
-  document.getElementById("mMessage").textContent=
-`You thought that was the end?
+  document.getElementById("mMessage").textContent=`You thought that was the end?
 
 Absolutely not.
 
